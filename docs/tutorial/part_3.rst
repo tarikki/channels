@@ -31,6 +31,7 @@ Put the following code in ``chat/consumers.py``::
 
     # chat/consumers.py
     from channels.generic.websocket import AsyncWebsocketConsumer
+    from channels.exceptions import StopConsumer
     import json
     
     class ChatConsumer(AsyncWebsocketConsumer):
@@ -52,6 +53,9 @@ Put the following code in ``chat/consumers.py``::
                 self.room_group_name,
                 self.channel_name
             )
+
+            # raise StopConsumer so the server cleans up this connection
+            raise StopConsumer()
         
         # Receive message from WebSocket
         async def receive(self, text_data):

@@ -368,6 +368,7 @@ following code in ``chat/consumers.py``, replacing the old code::
     # chat/consumers.py
     from asgiref.sync import async_to_sync
     from channels.generic.websocket import WebsocketConsumer
+    from channels.exceptions import StopConsumer
     import json
 
     class ChatConsumer(WebsocketConsumer):
@@ -389,6 +390,9 @@ following code in ``chat/consumers.py``, replacing the old code::
                 self.room_group_name,
                 self.channel_name
             )
+
+            # raise stop consumer so the server cleans up this connection
+            raise StopConsumer()
 
         # Receive message from WebSocket
         def receive(self, text_data):
